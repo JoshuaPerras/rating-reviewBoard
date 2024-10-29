@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | MovieSite</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #333;
+      padding: 15px;
+    }
+
+    .logo {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 15px;
+    }
+
+    .nav-links a:hover {
+      background-color: #555;
+      border-radius: 5px;
+    }
+
+    .user-actions {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-actions img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .user-actions a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 15px;
+      border-radius: 5px;
+      background-color: #28a745;
+      cursor: pointer;
+    }
+
+    .user-actions a:hover {
+      background-color: #218838;
+    }
+
+    .login-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f2f2f2;
+    }
+
+    .login-form-card {
+      background-color: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    .login-form h2 {
+      margin: 10px 0;
+      font-size: 32px;
+    }
+
+    .login-form h3 {
+      margin-bottom: 30px;
+    }
+
+    .input-group {
+      margin-bottom: 25px; /* 增加间距 */
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .password-container {
+      position: relative;
+    }
+
+    .password-container img {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px; /* 增加按钮顶部的间距 */
+    }
+
+    .login-button:hover {
+      background-color: #218838;
+    }
+
+    .register-link {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .register-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+
+    .poster {
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+    }
+
+    .poster img {
+      max-width: 600px;
+      max-height: 400px;
+      width: auto;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo" onclick="window.location.href='#'">MovieSite</div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Movies</a>
+      <a href="#">Popular</a>
+      <a href="#">Favorites List</a>
+    </div>
+  </div>
+
+  <!-- Poster Section -->
+  <div class="poster">
+    <img src="P1.png" alt="Movie Poster">
+  </div>
+
+  <!-- Login Form -->
+  <div class="login-container">
+    <div class="login-form-card">
+      <h2>Welcome!</h2>
+      <h3>Sign in to your account</h3>
+      <div class="spacer"></div> <!-- 添加空行 -->
+
+      
+      <form class="login-form" onsubmit="return false;">
+        <div class="input-group">
+          <label for="username">User name</label>
+          <input type="text" id="username" placeholder="Enter your user name">
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <div class="password-container">
+            <input type="password" id="password" placeholder="Enter your password">
+            <img src="styles/eye1.png" alt="Hide password" class="toggle-password" id="eye1" style="display: block;">
+            <img src="styles/eye2.png" alt="Show password" class="toggle-password" id="eye2" style="display: none;">
+          </div>
+        </div>
+        <button type="submit" class="login-button">Login</button>
+      </form>
+      <div class="register-link">
+        Don't have an account? <a href="#">Register</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Actions (Avatar, Login, Register) -->
+  <div class="user-actions">
+    <img src="https://via.placeholder.com/40" alt="User Avatar">
+    <a href="#">Login</a>
+    <a href="#">Register</a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const password = document.getElementById('password');
+      const eye1 = document.getElementById('eye1');
+      const eye2 = document.getElementById('eye2');
+
+      eye1.addEventListener('click', function () {
+        password.setAttribute('type', 'text');
+        eye1.style.display = 'none';
+        eye2.style.display = 'block';
+      });
+
+      eye2.addEventListener('click', function () {
+        password.setAttribute('type', 'password');
+        eye2.style.display = 'none';
+        eye1.style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html>
+
+
+
+
