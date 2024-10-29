@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | MovieSite</title>
+  <link rel="stylesheet" href="SignUp.css">
+  <style>
+    .register-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f2f2f2;
+    }
+
+    .register-header img {
+      max-width: 150px;
+      margin-bottom: 20px;
+    }
+
+    .register-form-card {
+      background-color: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    .register-form h2,
+    .register-form h3 {
+      margin: 10px 0;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+      position: relative; /* 用于正确定位眼睛图标 */
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .password-container {
+      position: relative;
+    }
+
+    .password-container img {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      width: 20px; /* 缩小眼睛图标 */
+      height: 20px; /* 缩小眼睛图标 */
+    }
+
+    .register-button {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .register-button:hover {
+      background-color: #218838;
+    }
+
+    .login-link {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .login-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <header class="register-header">
+      <img src="/public/images/logo.png" alt="MovieSite Logo">
+    </header>
+    <div class="register-form-card">
+      <h2>Join Us!</h2>
+      <h3>Create your account</h3>
+      <form class="register-form" onsubmit="return false;">
+        <div class="input-group">
+          <label for="new-username">User name</label>
+          <input type="text" id="new-username" placeholder="Choose a user name">
+        </div>
+        <div class="input-group">
+          <label for="new-email">Email</label>
+          <input type="email" id="new-email" placeholder="Enter your email">
+        </div>
+        <div class="input-group">
+          <label for="new-password">Password</label>
+          <div class="password-container">
+            <input type="password" id="new-password" placeholder="Create a password">
+            <img src="styles/eye1.png" alt="Hide password" class="toggle-password" id="eye1" style="display: block;">
+            <img src="styles/eye2.png" alt="Show password" class="toggle-password" id="eye2" style="display: none;">
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="confirm-password">Confirm Password</label>
+          <div class="password-container">
+            <input type="password" id="confirm-password" placeholder="Confirm your password">
+            <img src="styles/eye1.png" alt="Hide password" class="toggle-password" id="confirm-eye1" style="display: block;">
+            <img src="styles/eye2.png" alt="Show password" class="toggle-password" id="confirm-eye2" style="display: none;">
+          </div>
+        </div>
+        <button type="submit" class="register-button">Register</button>
+      </form>
+      <div class="login-link">
+        Already have an account? <a href="#">Sign In</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const password = document.getElementById('new-password');
+      const confirmPassword = document.getElementById('confirm-password');
+      const eye1 = document.getElementById('eye1');
+      const eye2 = document.getElementById('eye2');
+      const confirmEye1 = document.getElementById('confirm-eye1');
+      const confirmEye2 = document.getElementById('confirm-eye2');
+
+      eye1.addEventListener('click', function () {
+        password.setAttribute('type', 'text');
+        eye1.style.display = 'none';
+        eye2.style.display = 'block';
+      });
+
+      eye2.addEventListener('click', function () {
+        password.setAttribute('type', 'password');
+        eye2.style.display = 'none';
+        eye1.style.display = 'block';
+      });
+
+      confirmEye1.addEventListener('click', function () {
+        confirmPassword.setAttribute('type', 'text');
+        confirmEye1.style.display = 'none';
+        confirmEye2.style.display = 'block';
+      });
+
+      confirmEye2.addEventListener('click', function () {
+        confirmPassword.setAttribute('type', 'password');
+        confirmEye2.style.display = 'none';
+        confirmEye1.style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html>
+
+
