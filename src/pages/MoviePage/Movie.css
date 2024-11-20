@@ -1,10 +1,22 @@
 
 .movie-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     width: 100%;
     justify-items: center;
+}
+
+.load {
+    margin: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.load img {
+    height: 100px;
+    width: auto;
 }
 
 .movie-item img {
@@ -16,6 +28,10 @@
     margin: 10px 0;
     font-size: 16px;
     color: #f4c430;
+}
+
+.movie-item p {
+    color: #f7da84;
 }
 
 .movie-item:hover {

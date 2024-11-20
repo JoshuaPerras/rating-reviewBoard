@@ -1,6 +1,4 @@
-// src/components/Filter.js
-import React from 'react';
-import './Filter.css';
+import React from 'react'
 
 function Filter() {
   return (
@@ -34,7 +32,7 @@ function Filter() {
         <label><input type="checkbox" /> NR</label>
       </div>
     </div>
-  );
+  )
 }
 
-export default Filter;
+export default Filter

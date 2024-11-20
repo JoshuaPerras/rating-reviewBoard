@@ -13,44 +13,6 @@
     align-items: center;
   }
 
-  /* Header */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #1a1a1a;
-    padding: 15px;
-    width: 100%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 24px;
-    color: #f4c430;
-    font-weight: bold;
-  }
-
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .nav-links a {
-    color: #e0e0e0;
-    text-decoration: none;
-    font-size: 16px;
-    padding: 8px 15px;
-    transition: background-color 0.3s;
-  }
-
-  .nav-links a:hover {
-    background-color: #333333;
-    border-radius: 5px;
-  }
 
   /* Register Container */
   .register-container {

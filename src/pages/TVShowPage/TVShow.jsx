@@ -19,7 +19,7 @@ function TVShowPage() {
 
   return (
     <div className="tvshow-page">
-      <Header />
+      <Header /> 
       <div className="container">
         <Filter />
         <div className="main-content">
