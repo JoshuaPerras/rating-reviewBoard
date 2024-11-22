@@ -2,55 +2,79 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/Header';
+import logo1 from '../../assets/logo1.png'
 import './Detail.css';
 
-function MovieDetail() {
-  const { id } = useParams();
-  const [isFavorite, setIsFavorite] = useState(false);
 
-  const movieTitle = "3 Body Problem"; // 示例电影标题
-  const movieDescription = "Across continents and decades, five brilliant friends make earth-shattering discoveries as the laws of science unravel and an existential threat emerges.";
-  const starring = "Jess Hong, Liam Cunningham, Eiza González";
-  const creators = "David Benioff, D.B. Weiss, Alexander Woo";
+function MovieDetail() {
+  const { title } = useParams();
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [apiData, setApiData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchMovieData = async () =>{
+    // fetching videos Data
+    await fetch(`https://www.omdbapi.com/?i=${title}&apikey=5553db97`)
+    .then(res=>res.json())
+    .then(data => {setApiData(data), setLoading(false)});
+}
+
+useEffect(()=>{
+  setLoading(true);
+  fetchMovieData();
+
+},[])
+
 
   useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    setIsFavorite(favorites.includes(movieTitle));
-  }, [movieTitle]);
+    setTimeout (() => {
+      const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      setIsFavorite(favorites.includes(apiData.Title));
+    }, 1000)
+  
+  }, [isFavorite]);
 
   const toggleFavorite = () => {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     if (isFavorite) {
-      const newFavorites = favorites.filter((title) => title !== movieTitle);
+      const newFavorites = favorites.filter((title) => title !== apiData.Title);
       localStorage.setItem('favorites', JSON.stringify(newFavorites));
       setIsFavorite(false);
-      alert(`${movieTitle} removed from favorites`);
+      alert(`${apiData.Title} removed from favorites`);
     } else {
-      favorites.push(movieTitle);
+      favorites.push(apiData.Title);
       localStorage.setItem('favorites', JSON.stringify(favorites));
       setIsFavorite(true);
-      alert(`${movieTitle} added to favorites`);
+      alert(`${apiData.Title} added to favorites`);
     }
   };
 
+  if (loading) {
+    return(
+      <div className='load'>
+      <img src={logo1} alt="Logo1" />
+      <h2>Loading...</h2>
+    </div>
+    )
+  } 
   return (
     <div>
       <Header />
       <div className="detail-container">
         <div className="poster">
-          <img src="https://via.placeholder.com/250x350" alt={`${movieTitle} Poster`} />
+          <img src= {apiData.Poster} alt={`${apiData.Title} Poster`} />
         </div>
         <div className="movie-info">
-          <h1>{movieTitle}</h1>
+          <h1>{apiData.Title}</h1>
           <div className="details">
-            <span>2024</span> | <span>TV-MA</span> | <span>1 Season</span> | <span>Sci-Fi</span>
+            <span>{apiData.Year}</span> | <span>{apiData.Rated}</span> | <span>{apiData.Runtime}</span> | <span>{apiData.Genre}</span>
           </div>
-          <p className="description">{movieDescription}</p>
+          <p className="description"><p className='head'>Plot: </p>{apiData.Plot}</p>
           <div className="info-group">
-            <span>Starring:</span> {starring}
+            <span>Starring:</span> {apiData.Actors}
           </div>
           <div className="info-group">
-            <span>Creators:</span> {creators}
+            <span>Director:</span> {apiData.Director}
           </div>
           <div className="favorite-button" onClick={toggleFavorite}>
             <span id="heart-icon">{isFavorite ? '♥' : '♡'}</span> {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}

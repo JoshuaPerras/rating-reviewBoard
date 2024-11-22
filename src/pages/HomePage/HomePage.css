@@ -26,6 +26,8 @@ html, body {
     display: flex;
     width: 100%;
     margin-top: 20px;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -36,6 +38,10 @@ html, body {
     background-color: #1a1a1a;
     border-right: 1px solid #333333;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.search-bar input {
+    min-width: 350px;
 }
 
 .filters h3 {
@@ -55,7 +61,6 @@ html, body {
 }
 
 .main-content {
-    flex: 1;
     padding: 20px;
     display: flex;
     justify-content: center;
@@ -151,4 +156,9 @@ html, body {
 .rating-stars {
     color: #f4c430;
     font-size: 14px;
+}
+
+.nextButton {
+    max-height: 200px;
+    width: 75px;
 }

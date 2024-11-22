@@ -29,7 +29,7 @@ const handleChange = Event => {
     <header className="header">
       <div className="logo" onClick={() => window.location.href = '/'}>
         <img src={logo1} alt="Logo" />
-        <span>MovieSite</span>
+        <span>ReelMovies</span>
       </div>
 
       <div className='spaceFill'></div>

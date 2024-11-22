@@ -17,12 +17,15 @@
   }
   
   .movie-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     flex: 1;
   }
+ 
   
   .movie-info h1 {
     font-size: 28px;
-    margin-bottom: 10px;
     color: #f4c430;
   }
   
@@ -37,19 +40,24 @@
     color: #ddd;
   }
   
-  .description {
-    font-size: 16px;
+  .movie-info .description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #bbb;
+  }
+
+  .movie-info .description .head {
+    font-size: 18px;
     line-height: 1.6;
     color: #ddd;
-    margin-top: 10px;
+    font-weight: bold;
   }
   
   .details {
     display: flex;
     gap: 10px;
     font-size: 14px;
-    color: #bbb;
-    margin: 10px 0;
+    color: #ddd;
   }
   
   .favorite-button {
