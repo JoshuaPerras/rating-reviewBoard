@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
+import eye1 from '../../assets/eye1.png'
+import eye2 from '../../assets/eye2.png'
 import './SignUp.css';
 
 function SignUp() {
@@ -71,6 +73,7 @@ function SignUp() {
 
             <div className="input-group password-container">
               <label htmlFor="new-password">Password</label>
+              <div className='textImgDiv'>
               <input
                 type={showPassword ? "text" : "password"}
                 id="new-password"
@@ -80,11 +83,13 @@ function SignUp() {
                 required
               />
               <img
-                src={showPassword ? "styles/eye2.png" : "styles/eye1.png"}
+                src={showPassword ? eye2 : eye1}
                 alt={showPassword ? "Hide password" : "Show password"}
                 className="toggle-password"
                 onClick={togglePasswordVisibility}
               />
+              </div>
+              
             </div>
 
             <div className="input-group password-container">
@@ -98,7 +103,7 @@ function SignUp() {
                 required
               />
               <img
-                src={showConfirmPassword ? "styles/eye2.png" : "styles/eye1.png"}
+                src={showConfirmPassword ? eye2 : eye1}
                 alt={showConfirmPassword ? "Hide password" : "Show password"}
                 className="toggle-password"
                 onClick={toggleConfirmPasswordVisibility}

@@ -71,6 +71,10 @@
     position: relative;
   }
 
+  .textImgDiv {
+    display: flex;
+  }
+
   .password-container img {
     margin-left: -30px; /* 左右位置调整 */
     margin-top: 20px; /* 向下移动，调整这个值以适当移动 */

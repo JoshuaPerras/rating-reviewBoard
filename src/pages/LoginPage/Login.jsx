@@ -2,6 +2,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
+import eye1 from '../../assets/eye1.png'
+import eye2 from '../../assets/eye2.png'
 import './Login.css';
 
 function LoginPage() {
@@ -21,14 +23,16 @@ function LoginPage() {
           <form className="login-form" onSubmit={(e) => e.preventDefault()}>
             <div className="input-group">
               <label htmlFor="username">User name</label>
-              <input type="text" id="username" placeholder="Enter your user name" style={{ color: '#333' }} />
+              <input type="text" id="username" placeholder="Enter your user name"/>
             </div>
             <div className="input-group">
               <label htmlFor="password">Password</label>
               <div className="password-container">
-                <input type="password" id="password" placeholder="Enter your password" style={{ color: '#333' }} />
-                <img src="/styles/eye1.png" alt="Hide password" className="toggle-password" id="eye1" style={{ display: 'block' }} onClick={() => togglePasswordVisibility()} />
-                <img src="/styles/eye2.png" alt="Show password" className="toggle-password" id="eye2" style={{ display: 'none' }} onClick={() => togglePasswordVisibility()} />
+                <div className='textImgDiv'>
+                <input type="password" id="password" placeholder="Enter your password" />
+                <img src= {eye1} alt="Hide password" className="toggle-password" id="eye1" style={{ display: 'flex' }} onClick={() => togglePasswordVisibility()} />
+                <img src= {eye2} alt="Show password" className="toggle-password" id="eye2" style={{ display: 'none' }} onClick={() => togglePasswordVisibility()} />
+                </div>
               </div>
             </div>
             <button type="submit" className="login-button">Login</button>

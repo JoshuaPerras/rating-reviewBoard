@@ -67,11 +67,16 @@
   
   .password-container {
     position: relative;
+    align-items: center;
+  }
+
+  .textImgDiv {
+    display: flex;
+    align-items: center;
   }
   
   .password-container img {
     position: absolute;
-    top: 30%; /* 调整这个值将图标向上或向下移动 */
     right: 10px;
     transform: translateY(-50%);
     cursor: pointer;
