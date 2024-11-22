@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import './Header.css';
 import logo1 from '../assets/logo1.png';
+import pfp from '../assets/popcornpfp.jpg'
 
 function Header(props) {
   const [searchInput, setSearchInput] = useState("");
@@ -42,7 +43,7 @@ const handleChange = Event => {
       </nav>
 
       <div className="user-info">
-        <img src="https://via.placeholder.com/40" alt="User Avatar" />
+        <img src= {pfp} alt="User Avatar" />
         <Link to="/login">Login</Link>
         <Link to="/register">Register</Link>
       </div>

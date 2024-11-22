@@ -7,6 +7,10 @@
     justify-items: center;
 }
 
+.main-content-mv h2 {
+    color: #f4c430;
+}
+
 .load {
     margin: 100px;
     display: flex;

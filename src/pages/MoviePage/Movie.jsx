@@ -64,7 +64,8 @@ function MoviePage() {
       <Header var = {currentPage} />
       <div className="container">
         <Filter />
-        <div className="main-content">
+        <div className="main-content-mv">
+          <h2>Movies</h2>
           <div className="movie-container">
             {apiData.map((movie, index) => (
               <div
