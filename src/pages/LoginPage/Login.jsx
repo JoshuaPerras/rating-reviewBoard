@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import './Login.css';
+import eye1 from '../../assets/eye1.png'
+import eye2 from '../../assets/eye2.png'
+
 import Validation from '../LoginValidation';
 
 function LoginPage() {
@@ -48,10 +51,13 @@ function LoginPage() {
             <div className="input-group">
               <label htmlFor="password">Password</label>
               <div className="password-container">
+                <div className='imgFix'>
                 <input type="password" id="password" placeholder="Enter your password" name= 'password' onChange={handleInput} style={{ color: '#333' }} />
                 {errors.password && <span className ='text-danger'> {errors.password}</span>}
-                <img src="/styles/eye1.png" alt="Hide password" className="toggle-password" id="eye1" style={{ display: 'block' }} onClick={() => togglePasswordVisibility()} />
-                <img src="/styles/eye2.png" alt="Show password" className="toggle-password" id="eye2" style={{ display: 'none' }} onClick={() => togglePasswordVisibility()} />
+                <img src= {eye1} alt="Hide password" className="toggle-password" id="eye1" style={{ display: 'block' }} onClick={() => togglePasswordVisibility()} />
+                <img src= {eye2} alt="Show password" className="toggle-password" id="eye2" style={{ display: 'none' }} onClick={() => togglePasswordVisibility()} />
+                </div>
+                
               </div>
             </div>
             <button type="submit" className="login-button">Login</button>
