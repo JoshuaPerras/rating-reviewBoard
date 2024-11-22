@@ -1,8 +1,9 @@
 // src/pages/LoginPage/Login.js
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import './Login.css';
+import Validation from '../LoginValidation';
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -10,7 +11,27 @@ function LoginPage() {
   const handleRegisterClick = () => {
     navigate('/register');
   };
+    
+  const[values, setValues] = useState({
+    username: '',
+    password: ''
 
+  })
+
+  
+
+  const [errors, setErrors] = useState({})
+
+  const handleInput = (event) => {
+    setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
+
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setErrors(Validation(values));
+
+  }
   return (
     <div>
       <Header />
@@ -18,15 +39,17 @@ function LoginPage() {
         <div className="login-form-card">
           <h2>Welcome!</h2>
           <h3>Sign in to your account</h3>
-          <form className="login-form" onSubmit={(e) => e.preventDefault()}>
+          <form className="login-form" action = "" onSubmit= {handleSubmit}>
             <div className="input-group">
               <label htmlFor="username">User name</label>
-              <input type="text" id="username" placeholder="Enter your user name" style={{ color: '#333' }} />
+              <input type="text" id="username" placeholder="Enter your user name" name = 'username' onChange={handleInput} style={{ color: '#333' }} />
+              {errors.username && <span className ='text-danger'> {errors.username}</span>} 
             </div>
             <div className="input-group">
               <label htmlFor="password">Password</label>
               <div className="password-container">
-                <input type="password" id="password" placeholder="Enter your password" style={{ color: '#333' }} />
+                <input type="password" id="password" placeholder="Enter your password" name= 'password' onChange={handleInput} style={{ color: '#333' }} />
+                {errors.password && <span className ='text-danger'> {errors.password}</span>}
                 <img src="/styles/eye1.png" alt="Hide password" className="toggle-password" id="eye1" style={{ display: 'block' }} onClick={() => togglePasswordVisibility()} />
                 <img src="/styles/eye2.png" alt="Show password" className="toggle-password" id="eye2" style={{ display: 'none' }} onClick={() => togglePasswordVisibility()} />
               </div>
