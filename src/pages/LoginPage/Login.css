@@ -103,6 +103,10 @@
   .login-button:hover {
     background-color: #ffdd57;
   }
+
+  .imgFix {
+    display: flex;
+  }
   
   .register-link {
     margin-top: 20px;
