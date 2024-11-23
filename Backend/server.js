@@ -1,34 +1,20 @@
-const express = require("express");
-const mysql = require('mysql');
-const cors = require('cors');
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import { connectDB } from './connect.js';
+import authRoutes from './routes/auth.js';
 
-const app = express(); 
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(express.json());
 app.use(cors());
 
-const db = mysql.createConnection({
-    host: "localhost:3307",
-    user: "root", 
-    password: "",
-    database: "useraccount"
+(async () => {
+  await connectDB(); // Ensure the database connection is established before starting the server
+  app.use('/api/auth', authRoutes);
 
-})
-
-app.post('/register', (req, res) => {
-    const sql = "INSERT INTO users ('username', 'email', 'password_hash') VALUES (?)";
-    const values = [
-        req.body.name, 
-        req.body.email, 
-        req.body.password
-    ]
-    db.query(sql, [values], (err, data) => {
-        if(err) {
-            return res.json("Error");
-        }
-        return res.json(data);
-    })
-})
-
-app.listen(8081, ()=> {
-    console.log("listening"); 
-
-})
+  app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+})();
