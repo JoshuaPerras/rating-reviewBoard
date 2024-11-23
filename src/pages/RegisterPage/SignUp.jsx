@@ -1,9 +1,10 @@
 // src/pages/RegisterPage/SignUp.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import Axios
 import Header from '../../components/Header';
-import eye1 from '../../assets/eye1.png'
-import eye2 from '../../assets/eye2.png'
+import eye1 from '../../assets/eye1.png';
+import eye2 from '../../assets/eye2.png';
 import './SignUp.css';
 
 function SignUp() {
@@ -19,23 +20,28 @@ function SignUp() {
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
-  const registerUser = (e) => {
+  const registerUser = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
-    const user = {
-      username: username,
-      email: email,
-      password: password,
-    };
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/register`, {
+        name: username,
+        email: email,
+        password: password,
+      });
 
-    localStorage.setItem('user', JSON.stringify(user));
-
-    alert("Registration successful! You can now log in.");
-    navigate('/login');
+      if (response.status === 201) {
+        alert("Registration successful! You can now log in.");
+        navigate('/login');
+      }
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || "Registration failed. Please try again.");
+    }
   };
 
   return (
@@ -73,46 +79,47 @@ function SignUp() {
 
             <div className="input-group password-container">
               <label htmlFor="new-password">Password</label>
-              <div className='textImgDiv'>
-              <input
-                type={showPassword ? "text" : "password"}
-                id="new-password"
-                placeholder="Create a password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <img
-                src={showPassword ? eye2 : eye1}
-                alt={showPassword ? "Hide password" : "Show password"}
-                className="toggle-password"
-                onClick={togglePasswordVisibility}
-              />
+              <div className="textImgDiv">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="new-password"
+                  placeholder="Create a password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <img
+                  src={showPassword ? eye2 : eye1}
+                  alt={showPassword ? "Hide password" : "Show password"}
+                  className="toggle-password"
+                  onClick={togglePasswordVisibility}
+                />
               </div>
-              
             </div>
 
             <div className="input-group password-container">
               <label htmlFor="confirm-password">Confirm Password</label>
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                id="confirm-password"
-                placeholder="Confirm your password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
-              <img
-                src={showConfirmPassword ? eye2 : eye1}
-                alt={showConfirmPassword ? "Hide password" : "Show password"}
-                className="toggle-password"
-                onClick={toggleConfirmPasswordVisibility}
-              />
+              <div className="textImgDiv">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  id="confirm-password"
+                  placeholder="Confirm your password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+                <img
+                  src={showConfirmPassword ? eye2 : eye1}
+                  alt={showConfirmPassword ? "Hide password" : "Show password"}
+                  className="toggle-password"
+                  onClick={toggleConfirmPasswordVisibility}
+                />
+              </div>
             </div>
-            
+
             <button type="submit" className="register-button">Register</button>
           </form>
-          
+
           <div className="login-link">
             Already have an account? <a href="/login">Sign In</a>
           </div>
