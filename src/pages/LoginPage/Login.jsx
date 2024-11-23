@@ -53,11 +53,11 @@ function LoginPage() {
               <div className="password-container">
                 <div className='imgFix'>
                 <input type="password" id="password" placeholder="Enter your password" name= 'password' onChange={handleInput} style={{ color: '#333' }} />
-                {errors.password && <span className ='text-danger'> {errors.password}</span>}
                 <img src= {eye1} alt="Hide password" className="toggle-password" id="eye1" style={{ display: 'block' }} onClick={() => togglePasswordVisibility()} />
                 <img src= {eye2} alt="Show password" className="toggle-password" id="eye2" style={{ display: 'none' }} onClick={() => togglePasswordVisibility()} />
                 </div>
-                
+                {errors.password && <span className ='text-danger'> {errors.password}</span>}
+
               </div>
             </div>
             <button type="submit" className="login-button">Login</button>

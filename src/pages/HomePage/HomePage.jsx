@@ -141,37 +141,39 @@ useEffect(()=>{
                 <div>{apiData[(0 + offset*4)%10].Title}</div>
                 <div className="rating">{apiData[(0 + offset*4)%10].Year}</div>
               </div>
-              <div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[1].imdbID)}>
+              {apiData[(1 + offset*4)%10]?<div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[1].imdbID)}>
                 <img src= {apiData[(1 + offset*4)%10].Poster} style={{ width: '200px', height: '320px' }} />
                 <div>{apiData[(1 + offset*4)%10].Title}</div>
                 <div className="rating">{apiData[1].Year}</div>
-              </div>
-              <div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[2].imdbID)}>
+              </div>:<></>}
+              {apiData[(2 + offset*4)%10]?<div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[2].imdbID)}>
                 <img src= {apiData[(2 + offset*4)%10].Poster} alt="Movie Poster" style={{ width: '200px', height: '320px' }}/>
                 <div>{apiData[(2 + offset*4)%10].Title}</div>
                 <div className="rating">{apiData[(2 + offset*4)%10].Year}</div>
-              </div>
+              </div>:<></>}
+              
             </div>
         
           
             {/* Ranking sections */}
             <div className="ranking-container">
-              <div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[3].imdbID)}>
+              {apiData[(3 + offset*4)%10]?<div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[3].imdbID)}>
                 <img src= {apiData[(3 + offset*4)%10].Poster} alt="Movie Poster" style={{ width: '200px', height: '320px' }}/>
                 <div>{apiData[(3 + offset*4)%10].Title}</div>
                 <div className="rating">{apiData[(3 + offset*4)%10].Year}</div>
-              </div>
+              </div>:<></>}
               
-              <div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[4].imdbID)}>
+              {apiData[(4 + offset*4)%10]?<div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[4].imdbID)}>
                 <img src= {apiData[(4 + offset*4)%10].Poster} alt="Movie Poster" style={{ width: '200px', height: '320px' }}/>
                 <div>{apiData[(4 + offset*4)%10].Title}</div>
                 <div className="rating">{apiData[(4 + offset*4)%10].Year}</div>
-              </div>
-              <div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[5].imdbID)}>
+              </div>:<></>}
+              {apiData[(5 + offset*4)%10]?<div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[5].imdbID)}>
                 <img src= {apiData[(5 + offset*4)%10].Poster} alt="Movie Poster" style={{ width: '200px', height: '320px' }}/>
                 <div>{apiData[(5 + offset*4)%10].Title}</div>
                 <div className="rating">{apiData[(5 + offset*4)%10].Year}</div>
-              </div>
+              </div>:<></>}
+              
             </div>
           </div>
         </div>
