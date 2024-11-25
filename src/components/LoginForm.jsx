@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Validation from '../util/LoginValidation';
+import Validation from '../pages/util/LoginValidation';
 
 function LoginForm({ redirectPath = '/' }) {
   const navigate = useNavigate();
