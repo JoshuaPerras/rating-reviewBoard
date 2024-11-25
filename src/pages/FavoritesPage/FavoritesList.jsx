@@ -1,95 +1,128 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Header from '../../components/Header';
 import './FavoritesList.css';
 
 function FavoritesPage() {
-  const navigate = useNavigate(); 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [movies, setMovies] = useState([
-    { title: 'Favorite Movie 1', imageUrl: 'https://via.placeholder.com/220x300' },
-    { title: 'Favorite Movie 2', imageUrl: 'https://via.placeholder.com/220x300' },
-    // Add more movie objects as needed
-  ]);
-  const [lists, setLists] = useState([
-    { id: 1, name: 'My Favorite Movies' },
-    { id: 2, name: 'Sci-Fi Movies' },
-    { id: 3, name: 'Comedy Collection' },
-  ]);
+  const [lists, setLists] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isCreating, setIsCreating] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  // Remove a movie from favorites
-  const removeFavorite = (title) => {
-    setMovies((prevMovies) => prevMovies.filter((movie) => movie.title !== title));
-    alert(`Removed ${title} from favorites`);
-  };
+  // Hardcoded API URI
+  const API_URL = 'http://localhost:5000/api/favorite'; // Update if your backend uses a different route
 
-  // Pagination logic
-  const nextPage = () => {
-    setCurrentPage(currentPage + 1);
-  };
+  // Fetch favorite lists from the backend
+  useEffect(() => {
+    const fetchLists = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        console.log('Token:', token); // Debugging log
+        if (!token) {
+          alert('Please log in to view your favorite lists.');
+          navigate('/login'); // Redirect to login if not authenticated
+          return;
+        }
 
-  const previousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
+        const response = await axios.get(`${API_URL}/favorite-lists`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        console.log('Fetched lists response:', response.data); // Debugging log
+        if (response.data?.lists) {
+          setLists(response.data.lists);
+        } else {
+          setLists([]);
+        }
+      } catch (err) {
+        console.error('Error fetching favorite lists:', err.response || err.message);
+        setError('Failed to load favorite lists.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLists();
+  }, [navigate]);
 
   // Create a new favorite list
-  const handleCreateList = () => {
+  const handleCreateList = async () => {
     const listName = prompt('Enter a name for the new list:');
     if (!listName) return;
 
-    const newList = {
-      id: lists.length + 1, // Assign a unique ID
-      name: listName,
-    };
+    setIsCreating(true);
 
-    setLists([...lists, newList]);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        `${API_URL}/favorite-lists`,
+        { name: listName },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      console.log('Create list response:', response.data); // Debugging log
+      if (response.data) {
+        setLists((prevLists) => [...prevLists, response.data]);
+        alert('List created successfully!');
+      }
+    } catch (err) {
+      console.error('Error creating favorite list:', err.response || err.message);
+      alert('Failed to create the list. Please try again.');
+    } finally {
+      setIsCreating(false);
+    }
+  };
+
+  // Delete a favorite list
+  const handleDeleteList = async (listId) => {
+    if (!window.confirm('Are you sure you want to delete this list?')) return;
+
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`${API_URL}/favorite-lists/${listId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setLists((prevLists) => prevLists.filter((list) => list._id !== listId));
+      alert('List deleted successfully!');
+    } catch (err) {
+      console.error('Error deleting favorite list:', err.response || err.message);
+      alert('Failed to delete the list. Please try again.');
+    }
   };
 
   return (
     <div>
       <Header />
       <div className="favorites-container">
-        <h1>Your Favorites</h1>
+        <h1>Your Favorite Lists</h1>
 
-        {/* Create List Button */}
-        <button className="create-list-button" onClick={handleCreateList}>
-          Create List
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p className="error">{error}</p>
+        ) : lists.length === 0 ? (
+          <p className="no-lists-message">No favorite lists yet. Click "Create List" to get started!</p>
+        ) : (
+          <div className="lists">
+            {lists.map((list) => (
+              <div key={list._id} className="list-item">
+                <h3 onClick={() => navigate(`/favorites/${list._id}`)}>{list.list_name}</h3>
+                <button onClick={() => handleDeleteList(list._id)}>Delete</button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <button
+          className="create-list-button"
+          onClick={handleCreateList}
+          disabled={isCreating}
+        >
+          {isCreating ? 'Creating...' : 'Create List'}
         </button>
-
-        {/* Render Favorite Lists */}
-        <div className="lists">
-          {lists.map((list) => (
-            <div
-              key={list.id}
-              className="list-item"
-              onClick={() => navigate(`/favorites/${list.id}`)} // Navigate to ListDetailsPage
-            >
-              <h3>{list.name}</h3>
-            </div>
-          ))}
-        </div>
-
-        {/* Render Movies */}
-        <div className="movie-container">
-          {movies.map((movie, index) => (
-            <div key={index} className="movie-item">
-              <img src={movie.imageUrl} alt="Favorite Movie Poster" />
-              <h3>{movie.title}</h3>
-              <button onClick={() => removeFavorite(movie.title)}>Remove from Favorites</button>
-            </div>
-          ))}
-        </div>
-
-        {/* Pagination */}
-        <div className="pagination">
-          <span className="page-number">Page {currentPage}</span>
-          <button onClick={previousPage} disabled={currentPage === 1}>
-            Previous Page
-          </button>
-          <button onClick={nextPage}>Next Page</button>
-        </div>
       </div>
     </div>
   );
