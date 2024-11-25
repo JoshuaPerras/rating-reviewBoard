@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import eye1 from '../assets/eye1.png'
+import eye2 from '../assets/eye2.png'
 import Validation from '../pages/util/LoginValidation';
 
 function LoginForm({ redirectPath = '/' }) {
@@ -10,7 +12,27 @@ function LoginForm({ redirectPath = '/' }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  // const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
+  function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('password');
+    const eye1 = document.getElementById('eye1');
+    const eye2 = document.getElementById('eye2');
+  
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      eye1.style.display = 'none';
+      eye2.style.display = 'block';
+    } else {
+      passwordInput.type = 'password';
+      eye1.style.display = 'block';
+      eye2.style.display = 'none';
+    }
+  }
+
+  const handleRegisterClick = () => {
+    navigate('/register');
+  };
 
   const handleInput = (event) => {
     setValues((prev) => ({ ...prev, [event.target.name]: event.target.value }));
@@ -58,6 +80,7 @@ function LoginForm({ redirectPath = '/' }) {
       </div>
       <div className="input-group password-container">
         <label htmlFor="password">Password</label>
+        <div className='passImg'>
         <input
           type={showPassword ? 'text' : 'password'}
           id="password"
@@ -66,15 +89,19 @@ function LoginForm({ redirectPath = '/' }) {
           value={values.password}
           onChange={handleInput}
         />
-        <button type="button" onClick={togglePasswordVisibility}>
-          {showPassword ? 'Hide' : 'Show'}
-        </button>
+          <img src= {eye1} alt="Hide password" className="toggle-password" id="eye1" style={{ display: 'block' }} onClick={() => togglePasswordVisibility()} />
+          <img src= {eye2} alt="Show password" className="toggle-password" id="eye2" style={{ display: 'none' }} onClick={() => togglePasswordVisibility()} />
+          </div>
         {errors.password && <span className="error">{errors.password}</span>}
       </div>
       <button type="submit" disabled={isLoading}>
         {isLoading ? 'Logging in...' : 'Login'}
       </button>
+      <div className="register-link">
+            Don't have an account? <span onClick={handleRegisterClick} style={{ color: '#f4c430', cursor: 'pointer' }}>Register</span>
+      </div>
     </form>
+    
   );
 }
 

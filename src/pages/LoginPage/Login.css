@@ -62,10 +62,11 @@
     align-items: center;
   }
 
-  .textImgDiv {
+  .passImg {
     display: flex;
     align-items: center;
   }
+
   
   .password-container img {
     position: absolute;
@@ -106,12 +107,12 @@
     color: #e0e0e0;
   }
   
-  .register-link a {
+  .register-link span {
     color: #f4c430;
     text-decoration: none;
   }
   
-  .register-link a:hover {
+  .register-link span:hover {
     text-decoration: underline;
   }
   
