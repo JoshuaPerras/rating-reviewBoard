@@ -13,7 +13,6 @@ function MovieDetail() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [apiData, setApiData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const percentage = 66;
 
   const fetchMovieData = async () =>{
     // fetching videos Data
