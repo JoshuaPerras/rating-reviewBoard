@@ -7,22 +7,13 @@ import eye1 from '../../assets/eye1.png';
 import eye2 from '../../assets/eye2.png';
 import './SignUp.css';
 
-import Validation from '../LoginValidation';
-
 function SignUp() {
-   const [username, setUsername] = useState('');
-   const [email, setEmail] = useState('');
-   const [password, setPassword] = useState('');
-   const [confirmPassword, setConfirmPassword] = useState('');
-   const [showPassword, setShowPassword] = useState(false);
-   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
- // const[values, setValues] = useState({
- //   username: '',
- //   email: '',
- //   password: ''
-
-  //})
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -35,8 +26,6 @@ function SignUp() {
       alert("Passwords do not match!");
       return;
     }
-
-
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/register`, {
