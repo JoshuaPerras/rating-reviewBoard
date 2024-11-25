@@ -45,14 +45,14 @@ function LoginPage() {
           <form className="login-form" action = "" onSubmit= {handleSubmit}>
             <div className="input-group">
               <label htmlFor="username">User name</label>
-              <input type="text" id="username" placeholder="Enter your user name" name = 'username' onChange={handleInput} style={{ color: '#333' }} />
+              <input type="text" id="username" placeholder="Enter your user name" name = 'username' onChange={handleInput}/>
               {errors.username && <span className ='text-danger'> {errors.username}</span>} 
             </div>
             <div className="input-group">
               <label htmlFor="password">Password</label>
               <div className="password-container">
                 <div className='imgFix'>
-                <input type="password" id="password" placeholder="Enter your password" name= 'password' onChange={handleInput} style={{ color: '#333' }} />
+                <input type="password" id="password" placeholder="Enter your password" name= 'password' onChange={handleInput}/>
                 <img src= {eye1} alt="Hide password" className="toggle-password" id="eye1" style={{ display: 'block' }} onClick={() => togglePasswordVisibility()} />
                 <img src= {eye2} alt="Show password" className="toggle-password" id="eye2" style={{ display: 'none' }} onClick={() => togglePasswordVisibility()} />
                 </div>

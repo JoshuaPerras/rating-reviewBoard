@@ -85,30 +85,32 @@ useEffect(()=>{
           <div className="info-group">
             <span>Starring:</span> {apiData.Actors}
           </div>
-          <div className="info-group">
+          {apiData.Director == "N/A"? <></>:<div className="info-group">
             <span>Director:</span> {apiData.Director}
-          </div>
-          <div className="info-group">
+          </div>}
+          {apiData.BoxOffice == "N/A"? <></>:<div className="info-group">
             <span>BoxOffice Earnings:</span> {apiData.BoxOffice}
-          </div>
+          </div>}
+          
           <div className='circleRating'>
-          <div className='MetaScore'>
+            {apiData.Metascore == "N/A"? <></>:<div className='MetaScore'>
             <h2 style={{color: `#f4c430`}}>MetaScore</h2>
             <CircularProgressbar value={apiData.Metascore} text={`${apiData.Metascore}%`} styles={buildStyles({
              pathTransitionDuration: 1,
-              pathColor: `rgba(${255 * (1 - apiData.Metascore/100)}, ${255 * apiData.Metascore/100}, 0)`,
-              textColor: `rgba(${255 * (1 - apiData.Metascore/100)}, ${255 * apiData.Metascore/100}, 0)`
+              pathColor: `rgba(${255 * (1 - apiData.Metascore/100) + 20}, ${255 * apiData.Metascore/100}, 0)`,
+              textColor: `rgba(${255 * (1 - apiData.Metascore/100) + 20}, ${255 * apiData.Metascore/100}, 0)`
             })} />
-          </div>
-          <div className='IMDBScore'>
+          </div>}
+          {apiData.imdbRating == "N/A"? <></>: <div className='IMDBScore'>
           <h2 style={{color: `#f4c430`}}>IMDB Rating</h2>
 
           <CircularProgressbar value={apiData.imdbRating*10} text={`${apiData.imdbRating*10}%`} styles={buildStyles({
             pathTransitionDuration: 1,
-            pathColor: `rgba(${255 * (1 - (apiData.imdbRating/10))}, ${255 * apiData.imdbRating/10}, 0)`,
-            textColor: `rgba(${255 * (1 - (apiData.imdbRating/10))}, ${255 * apiData.imdbRating/10}, 0)`
+            pathColor: `rgba(${255 * (1 - (apiData.imdbRating/10)) + 20}, ${255 * apiData.imdbRating/10}, 0)`,
+            textColor: `rgba(${255 * (1 - (apiData.imdbRating/10)) + 20}, ${255 * apiData.imdbRating/10}, 0)`
           })} />
-          </div>
+          </div>}
+          
           </div>
           <div className="favorite-button" onClick={toggleFavorite}>
             <span id="heart-icon">{isFavorite ? '♥' : '♡'}</span> {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
