@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { client } from '../connect.js';
+import User from '../models/User.js'; // Assuming a User model is defined using Mongoose
 
 const router = express.Router();
 
@@ -15,12 +15,8 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Access the database and collection
-    const db = client.db('myDB');
-    const usersCollection = db.collection('users');
-
     // Check if user already exists
-    const existingUser = await usersCollection.findOne({ email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
@@ -28,9 +24,9 @@ router.post('/register', async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new user
-    const newUser = { name, email, password: hashedPassword };
-    await usersCollection.insertOne(newUser);
+    // Create and save a new user
+    const newUser = new User({ name, email, password: hashedPassword });
+    await newUser.save();
 
     res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
@@ -49,12 +45,8 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Access the database and collection
-    const db = client.db('myDB');
-    const usersCollection = db.collection('users');
-
     // Check if user exists
-    const user = await usersCollection.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
@@ -71,7 +63,11 @@ router.post('/login', async (req, res) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign(
+      { id: user._id, email: user.email }, // Include email in the payload
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
 
     // Respond with token
     res.status(200).json({ message: 'Login successful', token });
