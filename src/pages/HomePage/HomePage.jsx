@@ -2,6 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import Header from '../../components/Header';
 import logo1 from '../../assets/logo1.png'
+import bVideo from '../../assets/background.mp4'
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 
@@ -74,21 +75,19 @@ useEffect(()=>{
       
       <div className="main-container">
 
-        <div className="main-content">
-        <div className="search-bar">
-        <input type="text" 
-        placeholder="Search for movies..."
-        onChange = {handleChange}
-        value = {searchInput} />
-        <button onClick={click}>Search</button>
-      </div>
-        <div className="poster">
-            <div className="movie-list" >
-              Welcome to the Home Page type a movie title and click Search to begin!
-            </div>
-                    
-          </div>
+        <div className="main-content"> 
+          <div className="search-bar">
+            <input type="text" 
+            placeholder="Search for movies..."
+            onChange = {handleChange}
+            value = {searchInput} />
+          <button onClick={click}>Search</button>
         </div>
+        <video autoPlay loop muted id='video'>
+            <source src = {bVideo} type='video/mp4'/>
+          </video>
+                    
+      </div>
       </div>
     </div>
     )
