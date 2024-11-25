@@ -22,10 +22,6 @@ function MovieDetail() {
     
 }
 
-const getColors = async () => {
-    
-}
-
 
 useEffect(()=>{
   setLoading(true);
