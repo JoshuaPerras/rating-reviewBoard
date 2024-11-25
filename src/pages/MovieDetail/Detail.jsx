@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/Header';
-import logo1 from '../../assets/logo1.png'
+import logo1 from '../../assets/logo1.png';
+import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 import './Detail.css';
 
 
@@ -11,19 +13,28 @@ function MovieDetail() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [apiData, setApiData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const percentage = 66;
 
   const fetchMovieData = async () =>{
     // fetching videos Data
     await fetch(`https://www.omdbapi.com/?i=${title}&apikey=5553db97`)
     .then(res=>res.json())
     .then(data => {setApiData(data), setLoading(false)});
+    
 }
+
+const getColors = async () => {
+    
+}
+
 
 useEffect(()=>{
   setLoading(true);
   fetchMovieData();
 
 },[])
+
+
 
 
   useEffect(() => {
@@ -69,16 +80,40 @@ useEffect(()=>{
           <div className="details">
             <span>{apiData.Year}</span> | <span>{apiData.Rated}</span> | <span>{apiData.Runtime}</span> | <span>{apiData.Genre}</span>
           </div>
-          <p className="description"><p className='head'>Plot: </p>{apiData.Plot}</p>
+          <p className='head'>Plot: </p>
+          <div className="description"> {apiData.Plot}</div>
           <div className="info-group">
             <span>Starring:</span> {apiData.Actors}
           </div>
           <div className="info-group">
             <span>Director:</span> {apiData.Director}
           </div>
+          <div className="info-group">
+            <span>BoxOffice Earnings:</span> {apiData.BoxOffice}
+          </div>
+          <div className='circleRating'>
+          <div className='MetaScore'>
+            <h2 style={{color: `#f4c430`}}>MetaScore</h2>
+            <CircularProgressbar value={apiData.Metascore} text={`${apiData.Metascore}%`} styles={buildStyles({
+             pathTransitionDuration: 1,
+              pathColor: `rgba(${255 * (1 - apiData.Metascore/100)}, ${255 * apiData.Metascore/100}, 0)`,
+              textColor: `rgba(${255 * (1 - apiData.Metascore/100)}, ${255 * apiData.Metascore/100}, 0)`
+            })} />
+          </div>
+          <div className='IMDBScore'>
+          <h2 style={{color: `#f4c430`}}>IMDB Rating</h2>
+
+          <CircularProgressbar value={apiData.imdbRating*10} text={`${apiData.imdbRating*10}%`} styles={buildStyles({
+            pathTransitionDuration: 1,
+            pathColor: `rgba(${255 * (1 - (apiData.imdbRating/10))}, ${255 * apiData.imdbRating/10}, 0)`,
+            textColor: `rgba(${255 * (1 - (apiData.imdbRating/10))}, ${255 * apiData.imdbRating/10}, 0)`
+          })} />
+          </div>
+          </div>
           <div className="favorite-button" onClick={toggleFavorite}>
             <span id="heart-icon">{isFavorite ? '♥' : '♡'}</span> {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
           </div>
+          
         </div>
       </div>
     </div>
