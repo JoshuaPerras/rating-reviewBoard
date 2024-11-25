@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Validation from '../util/LoginValidation';
 
-function LoginForm({ redirectPath }) {
+function LoginForm({ redirectPath = '/' }) {
   const navigate = useNavigate();
-  const [values, setValues] = useState({ username: '', password: '' });
+  const [values, setValues] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,13 +21,13 @@ function LoginForm({ redirectPath }) {
     const validationErrors = Validation(values);
     setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length === 0) {
+    //if (Object.keys(validationErrors).length === 0) {
       setIsLoading(true);
       try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, {
-          username: values.username,
+        const response = await axios.post('http://localhost:5000/api/auth/login', {
+          email: values.email,
           password: values.password,
-        });
+        });        
 
         if (response.status === 200) {
           alert(response.data.message);
@@ -39,22 +39,22 @@ function LoginForm({ redirectPath }) {
       } finally {
         setIsLoading(false);
       }
-    }
+    //}
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="input-group">
-        <label htmlFor="username">User Name</label>
+        <label htmlFor="email">Email</label>
         <input
           type="text"
-          id="username"
-          name="username"
-          placeholder="Enter your username"
-          value={values.username}
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          value={values.email}
           onChange={handleInput}
         />
-        {errors.username && <span className="error">{errors.username}</span>}
+        {errors.email && <span className="error">{errors.email}</span>}
       </div>
       <div className="input-group password-container">
         <label htmlFor="password">Password</label>
