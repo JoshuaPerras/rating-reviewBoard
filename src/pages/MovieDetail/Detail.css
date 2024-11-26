@@ -28,57 +28,28 @@
     font-size: 28px;
     color: #f4c430;
   }
-  .circleRating {
-    display: flex;
-    gap: 40px;
-  }
-
-  .IMDBScore {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .movie-info .MetaScore {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
   
   .info-group {
     font-size: 14px;
-    color: #dcdcdc;
+    color: #bbb;
     margin-bottom: 5px;
   }
   
   .rating, .info-group span {
     font-weight: bold;
-    color: #ffffff;
-  }
-
-  .CircularProgressbar {
-    height: 100px;
-    width: 100px;
+    color: #ddd;
   }
   
   .movie-info .description {
     font-size: 14px;
-    font-weight: bold;
     line-height: 1.6;
-    padding-left: 20px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-radius: 10px;
-    color: #000000;
-    background-color: #f4c430;
+    color: #bbb;
   }
 
-  .movie-info .head {
+  .movie-info .description .head {
     font-size: 18px;
     line-height: 1.6;
-    color: #ffffff;
+    color: #ddd;
     font-weight: bold;
   }
   
@@ -91,7 +62,7 @@
   
   .favorite-button {
     cursor: pointer;
-    font-size: 18px;
+    font-size: 20px;
     color: #f4c430;
     display: inline-flex;
     align-items: center;
@@ -101,5 +72,89 @@
   #heart-icon {
     font-size: 24px;
     color: #f00;
+  }
+
+  .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: #fefefe;
+    padding: 20px;
+    width: 90%;
+    max-width: 540px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    justify-content: center;
+    text-align: center;
+  }
+  
+
+  .modal-content {
+    background: #e30f44e7;
+    padding: 100px;
+    border-radius: 10px;
+    width: 500px;
+    gap: 20px; /* Adds space between each section */
+    justify-content: center;
+    text-align: center;
+  }
+
+  .modal-title {
+    color: #0d0d0d; /* Change to your preferred color */
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .modal-text {
+    color: #651919; /* Text color */
+    font-size: 16px;
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  /* Label text */
+.modal-list-label {
+  font-size: 16px;
+  color: #333; /* Dark text */
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.modal-lists-container {
+  max-height: 200px;
+  overflow-y: auto; /* Adds scroll if there are too many lists */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+/* Text styling inside the span */
+.modal-list-label .list-name-text {
+  font-weight: bold;
+  color: #555; /* Change color */
+}
+
+.modal-list-label:hover {
+  color: #f4c430; /* Change color on hover */
+}
+  
+  .modal-button {
+    color: #ffffff;
+    background-color: #444444;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modal-button:hover {
+    background-color: #555555;
   }
   
