@@ -2,7 +2,6 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import Header from '../../components/Header';
 import logo1 from '../../assets/logo1.png'
-import bVideo from '../../assets/background.mp4'
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 
@@ -75,19 +74,21 @@ useEffect(()=>{
       
       <div className="main-container">
 
-        <div className="main-content"> 
-          <div className="search-bar">
-            <input type="text" 
-            placeholder="Search for movies..."
-            onChange = {handleChange}
-            value = {searchInput} />
-          <button onClick={click}>Search</button>
-        </div>
-        <video autoPlay loop muted id='video'>
-            <source src = {bVideo} type='video/mp4'/>
-          </video>
-                    
+        <div className="main-content">
+        <div className="search-bar">
+        <input type="text" 
+        placeholder="Search for movies..."
+        onChange = {handleChange}
+        value = {searchInput} />
+        <button onClick={click}>Search</button>
       </div>
+        <div className="poster">
+            <div className="movie-list" >
+              Welcome to the Home Page type a movie title and click Search to begin!
+            </div>
+                    
+          </div>
+        </div>
       </div>
     </div>
     )
@@ -140,39 +141,37 @@ useEffect(()=>{
                 <div>{apiData[(0 + offset*4)%10].Title}</div>
                 <div className="rating">{apiData[(0 + offset*4)%10].Year}</div>
               </div>
-              {apiData[(1 + offset*4)%10]?<div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[1].imdbID)}>
+              <div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[1].imdbID)}>
                 <img src= {apiData[(1 + offset*4)%10].Poster} style={{ width: '200px', height: '320px' }} />
                 <div>{apiData[(1 + offset*4)%10].Title}</div>
                 <div className="rating">{apiData[1].Year}</div>
-              </div>:<></>}
-              {apiData[(2 + offset*4)%10]?<div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[2].imdbID)}>
+              </div>
+              <div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[2].imdbID)}>
                 <img src= {apiData[(2 + offset*4)%10].Poster} alt="Movie Poster" style={{ width: '200px', height: '320px' }}/>
                 <div>{apiData[(2 + offset*4)%10].Title}</div>
                 <div className="rating">{apiData[(2 + offset*4)%10].Year}</div>
-              </div>:<></>}
-              
+              </div>
             </div>
         
           
             {/* Ranking sections */}
             <div className="ranking-container">
-              {apiData[(3 + offset*4)%10]?<div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[3].imdbID)}>
+              <div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[3].imdbID)}>
                 <img src= {apiData[(3 + offset*4)%10].Poster} alt="Movie Poster" style={{ width: '200px', height: '320px' }}/>
                 <div>{apiData[(3 + offset*4)%10].Title}</div>
                 <div className="rating">{apiData[(3 + offset*4)%10].Year}</div>
-              </div>:<></>}
+              </div>
               
-              {apiData[(4 + offset*4)%10]?<div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[4].imdbID)}>
+              <div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[4].imdbID)}>
                 <img src= {apiData[(4 + offset*4)%10].Poster} alt="Movie Poster" style={{ width: '200px', height: '320px' }}/>
                 <div>{apiData[(4 + offset*4)%10].Title}</div>
                 <div className="rating">{apiData[(4 + offset*4)%10].Year}</div>
-              </div>:<></>}
-              {apiData[(5 + offset*4)%10]?<div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[5].imdbID)}>
+              </div>
+              <div className="movie-item" style={{ width: '250px', height: '400px'}} onClick={() => viewDetails(apiData[5].imdbID)}>
                 <img src= {apiData[(5 + offset*4)%10].Poster} alt="Movie Poster" style={{ width: '200px', height: '320px' }}/>
                 <div>{apiData[(5 + offset*4)%10].Title}</div>
                 <div className="rating">{apiData[(5 + offset*4)%10].Year}</div>
-              </div>:<></>}
-              
+              </div>
             </div>
           </div>
         </div>
