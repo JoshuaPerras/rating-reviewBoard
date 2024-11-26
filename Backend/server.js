@@ -4,6 +4,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import auth from './routes/auth.js';
 import favorite from './routes/favorite.js';
+import favoriteMovie from './routes/favoriteMovie.js';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use(cors());
     // Routes
     app.use('/api/auth', auth);
     app.use('/api/favorite', favorite);
+    app.use('/api/favoriteMovie', favoriteMovie);
 
     // Fallback Route for Undefined Endpoints
     app.use((req, res) => {
@@ -42,3 +44,4 @@ app.use(cors());
     process.exit(1); // Exit process with failure
   }
 })();
+

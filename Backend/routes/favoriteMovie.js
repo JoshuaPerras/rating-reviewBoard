@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Add a movie to a favorite list
 router.post('/add-movie', authenticate, async (req, res) => {
-    const { list_id, movie_id } = req.body;
+    const { list_id, movie_id, movie_name, poster_uri } = req.body;
   
     try {
       if (!list_id || !movie_id) {
@@ -19,7 +19,7 @@ router.post('/add-movie', authenticate, async (req, res) => {
         return res.status(400).json({ message: 'Movie already exists in the list.' });
       }
   
-      const newFavoriteMovie = new FavoriteMovie({ list_id, movie_id });
+      const newFavoriteMovie = new FavoriteMovie({ list_id, movie_id,  movie_name, poster_uri});
       await newFavoriteMovie.save();
   
       res.status(201).json({ message: 'Movie added to favorite list successfully.' });
@@ -30,7 +30,7 @@ router.post('/add-movie', authenticate, async (req, res) => {
   });
   
 // Get all movies in a specific favorite list
-router.get('/:listId/movies', authenticate, async (req, res) => {
+router.get('/:listId', authenticate, async (req, res) => {
   try {
     const { listId } = req.params;
 
@@ -43,7 +43,7 @@ router.get('/:listId/movies', authenticate, async (req, res) => {
 });
 
 // Remove a movie from a favorite list
-router.delete('/:listId/movies/:movieId', authenticate, async (req, res) => {
+router.delete('/:listId/:movieId', authenticate, async (req, res) => {
   try {
     const { listId, movieId } = req.params;
 
