@@ -9,13 +9,13 @@ import ListDetailsPage from './pages/ListDetails/ListDetails';
 import LoginPage from './pages/LoginPage/Login';
 import RegisterPage from './pages/RegisterPage/SignUp';
 import MovieDetail from './pages/MovieDetail/Detail';
-import PrivateRoute from './components/PrivateRoute'; 
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Public Pages */}
+        {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/movies" element={<MoviePage />} />
         <Route path="/tvshows" element={<TVShowPage />} />
@@ -40,7 +40,7 @@ function App() {
           }
         />
 
-        {/* Dynamic Movie Details Page */}
+        {/* Dynamic Movie Details */}
         <Route path="/movies/:title" element={<MovieDetail />} />
       </Routes>
     </Router>
