@@ -15,6 +15,7 @@ function MovieDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedLists, setSelectedLists] = useState([]);
   const BACKEND_API_URL = 'http://localhost:5000/api/favorite';
+  const FAVORITEMOVIE_API_URI = 'http://localhost:5000/api/favoriteMovie';
 
   // Fetch movie details from OMDb API
   const fetchMovieData = async () => {
@@ -56,7 +57,7 @@ function MovieDetail() {
     const checkIfFavorite = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`${BACKEND_API_URL}/check-favorite/${title}`, {
+        const response = await axios.get(`${FAVORITEMOVIE_API_URI}/check-favorite/${title}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setIsFavorite(response.data.isFavorite);
@@ -76,7 +77,7 @@ function MovieDetail() {
       // Remove movie from favorites
       try {
         const token = localStorage.getItem('token');
-        await axios.delete(`${BACKEND_API_URL}/remove-movie/${title}`, {
+        await axios.delete(`${FAVORITEMOVIE_API_URI}/remove-movie/${title}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setIsFavorite(false);
@@ -97,8 +98,8 @@ function MovieDetail() {
       await Promise.all(
         selectedLists.map((listId) =>
           axios.post(
-            `${BACKEND_API_URL}/add-movie`,
-            { list_id: listId, movie_id: title },
+            `${FAVORITEMOVIE_API_URI}/add-movie`,
+            { list_id: listId, movie_id: title, movie_name: apiData.Title,  poster_uri: apiData.Poster},
             { headers: { Authorization: `Bearer ${token}` } }
           )
         )
@@ -108,7 +109,7 @@ function MovieDetail() {
       setIsModalOpen(false);
     } catch (error) {
       console.error('Error saving movie to favorites:', error);
-      alert('Failed to save movie. Please try again.');
+      alert('Movie already exists in the list.');
     }
   };
 
@@ -159,33 +160,39 @@ function MovieDetail() {
 
       {/* Modal for Favorite List Selection */}
       {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <modal-title>Select Favorite Lists</modal-title>
-            {favoriteLists.length > 0 ? (
-              favoriteLists.map((list) => (
-                <div key={list._id}>
-                  <input
-                    type="checkbox"
-                    id={list._id}
-                    value={list._id}
-                    onChange={() => handleCheckboxChange(list._id)}
-                  />
-                  <label htmlFor={list._id}>{list.list_name}</label>
-                </div>
-              ))
-            ) : (
-              <p>No favorite lists available. Create one in the Favorites page.</p>
-            )}
-            <button onClick={handleSaveToFavorites} className="save-button">
-              Save
-            </button>
-            <button onClick={() => setIsModalOpen(false)} className="cancel-button">
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
+  <div className="modal">
+    <div className="modal-content">
+      <h3 className="modal-title">Select Favorite Lists</h3> {/* Updated title styling */}
+      <div className="modal-lists-container">
+        {favoriteLists.length > 0 ? (
+          favoriteLists.map((list) => (
+            <div key={list._id} className="modal-list-item">
+              <input
+                type="checkbox"
+                id={list._id}
+                value={list._id}
+                onChange={() => handleCheckboxChange(list._id)}
+              />
+              <label htmlFor={list._id} className="modal-list-label">
+                🌟 {`List: ${list.list_name.toUpperCase()}`}
+              </label>
+            </div>
+          ))
+        ) : (
+          <p className="modal-text">No favorite lists available. Create one in the Favorites page.</p>
+        )}
+      </div>
+      <div className="modal-buttons-container">
+        <button onClick={handleSaveToFavorites} className="modal-button save-button">
+          Save
+        </button>
+        <button onClick={() => setIsModalOpen(false)} className="modal-button cancel-button">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }
