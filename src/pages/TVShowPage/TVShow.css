@@ -113,3 +113,22 @@ input[type="text"] {
     font-size: 16px;
     color: #e0e0e0;
   }
+
+  .tv-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    width: 100%;
+    justify-items: center;
+  }
+
+  .tv-item img {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+
+  .tv-item h3, p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #f4c430;
+  }
