@@ -1,5 +1,6 @@
 import express from 'express';
 import FavoriteList from '../models/FavoriteList.js';
+import FavoriteMovie from '../models/FavoriteMovie.js';
 import authenticate from '../middleware/authenticate.js';
 
 const router = express.Router();
@@ -56,6 +57,7 @@ router.delete('/favorite-lists/:id', authenticate, async (req, res) => {
 
   try {
     const list = await FavoriteList.findByIdAndDelete(id);
+    await FavoriteMovie.deleteMany({ list_id: id });
 
     if (!list) {
       return res.status(404).json({ message: 'List not found' });
@@ -75,17 +77,14 @@ router.get('/list-details/:id', authenticate, async (req, res) => {
     const user_email = req.user.email;
 
     // Validate if the list exists and belongs to the user
-    const list = await FavoriteList.findOne({ _id: id, user_email });
+    const list = await FavoriteList.findById(id);
+
     if (!list) {
       return res.status(404).json({ message: 'List not found or does not belong to the user.' });
     }
 
-    // Fetch movies associated with the list
-    const movies = await FavoriteMovie.find({ list_id: id });
-
     res.status(200).json({
       list_name: list.list_name,
-      movies,
     });
   } catch (err) {
     console.error('Error fetching list details:', err.message);
