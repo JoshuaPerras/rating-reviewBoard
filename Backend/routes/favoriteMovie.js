@@ -64,6 +64,3 @@ router.delete('/:listId/:movieId', authenticate, async (req, res) => {
 });
 
 export default router;
-
-
-export default router;
