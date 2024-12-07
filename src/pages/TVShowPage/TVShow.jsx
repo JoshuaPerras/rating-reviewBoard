@@ -18,26 +18,35 @@ function TvPage() {
 
   // Fetch genres from TMDB
   const fetchGenres = async () => {
-    const response = await fetch(
-      `${BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=en-US`
-    );
-    const data = await response.json();
-    setGenres(data.genres);
+    try {
+      const response = await fetch(
+        `${BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=en-US`
+      );
+      const data = await response.json();
+      setGenres(data.genres);
+    } catch (error) {
+      console.error("Error fetching genres:", error);
+    }
   };
 
   // Fetch TV shows based on selected genres
   const fetchTV = async () => {
-    setLoading(true);
-    const genreParam =
-      selectedGenres.length > 0
-        ? `&with_genres=${selectedGenres.join(",")}`
-        : "";
-    const response = await fetch(
-      `${BASE_URL}/discover/tv?api_key=${API_KEY}&language=en-US&page=${currentPage}${genreParam}`
-    );
-    const data = await response.json();
-    setApiData(data.results);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const genreParam =
+        selectedGenres.length > 0
+          ? `&with_genres=${selectedGenres.join(",")}`
+          : "";
+      const response = await fetch(
+        `${BASE_URL}/discover/tv?api_key=${API_KEY}&language=en-US&page=${currentPage}${genreParam}`
+      );
+      const data = await response.json();
+      setApiData(data.results);
+    } catch (error) {
+      console.error("Error fetching TV shows:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Handle genre checkbox toggle
@@ -66,14 +75,15 @@ function TvPage() {
   const viewDetails = async (tvId) => {
     try {
       const response = await fetch(
-        `${BASE_URL}/tv/${tvId}?api_key=${API_KEY}&language=en-US`
+        `${BASE_URL}/tv/${tvId}/external_ids?api_key=${API_KEY}`
       );
       const data = await response.json();
-
+      console.log("Fetched TV Show Details:", data);
       if (data.imdb_id) {
+        console.log("Navigating to:", `/movies/${data.imdb_id}`);
         navigate(`/movies/${data.imdb_id}`);
       } else {
-        console.error("IMDb ID not found for the TV show.");
+        alert("IMDb ID not found for this TV show.");
       }
     } catch (error) {
       console.error("Error fetching TV show details:", error);

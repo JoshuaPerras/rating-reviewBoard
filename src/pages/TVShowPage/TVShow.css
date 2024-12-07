@@ -8,7 +8,7 @@ input[type="text"] {
     color: #e0e0e0;
   }
 
-  button {
+button {
     padding: 10px 15px;
     background-color: #f4c430;
     color: #0d0d0d;
@@ -17,21 +17,21 @@ input[type="text"] {
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s;
-  }
+}
 
-  button:hover {
+button:hover {
     background-color: #ffdd57;
-  }
+}
 
 
-  /* Main container and category sections */
-  .container {
+/* Main container and category sections */
+.container {
     display: flex;
     width: 100%;
     margin-top: 20px;
     padding: 20px;
     gap: 20px;
-  }
+}
 
   .sidebar {
     width: 250px;
@@ -120,6 +120,7 @@ input[type="text"] {
     gap: 20px;
     width: 100%;
     justify-items: center;
+    padding: 20px;
   }
 
   .tv-item img {
@@ -132,3 +133,8 @@ input[type="text"] {
     font-size: 16px;
     color: #f4c430;
   }
+
+.tv-item:hover {
+    transform: scale(1.05);
+}
+
