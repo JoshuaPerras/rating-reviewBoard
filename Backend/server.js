@@ -47,3 +47,4 @@ app.use(cors());
     process.exit(1); // Exit process with failure
   }
 })();
+
