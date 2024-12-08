@@ -4,12 +4,15 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import auth from './routes/auth.js';
 import favorite from './routes/favorite.js';
+import rate from './routes/rate.js';
+import FavoriteMovie from './models/FavoriteMovie.js';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const uri = "mongodb+srv://tungchihyuan:tung123@softe.8p9rm.mongodb.net/?retryWrites=true&w=majority&appName=SoftE";
+
 
 // Middleware
 app.use(express.json());
@@ -29,6 +32,8 @@ app.use(cors());
     // Routes
     app.use('/api/auth', auth);
     app.use('/api/favorite', favorite);
+    app.use('/api/favoritemovie', FavoriteMovie);
+    app.use('/api/rate', rate);
 
     // Fallback Route for Undefined Endpoints
     app.use((req, res) => {

@@ -1,12 +1,16 @@
 // src/pages/MovieDetail/Detail.js
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../../components/Header';
 import logo1 from '../../assets/logo1.png';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import './Detail.css';
+import StarRating from '../../components/StarRating';
+import TotalStarRating from '../../components/TotalStarRating';
+import { FaStar } from 'react-icons/fa'
+
 
 function MovieDetail() {
   const { title } = useParams(); // IMDb ID from the URL
@@ -16,7 +20,18 @@ function MovieDetail() {
   const [favoriteLists, setFavoriteLists] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedLists, setSelectedLists] = useState([]);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const { id } = useParams(); // Get the list ID from the URL
   const BACKEND_API_URL = 'http://localhost:5000/api/favorite';
+  const [Review, setReview] = useState(0);
+  const handleReview = (data) => {
+    setReview(data)
+  }
+  const[rating, setRating] = useState(null);
+  const[hover, setHover] = useState(null);
+  const [averageRates, setAverageRates] = useState(null);
+  const [totalRates, setTotalRates] = useState(null);
 
   // Fetch movie details from OMDb API
   const fetchMovieData = async () => {
@@ -29,12 +44,23 @@ function MovieDetail() {
       console.error('Error fetching movie data:', error);
     }
   };
+  
+ 
 
   useEffect(()=>{
     setLoading(true);
     fetchMovieData();
-  
   },[])
+
+
+
+
+
+  function updateRating() {
+    submitRating(rating);
+    fetchAverageRating();
+    console.log('update performed');
+  }
 
   // Fetch favorite lists from the backend
   useEffect(() => {
@@ -67,10 +93,76 @@ function MovieDetail() {
       }
     };
 
+
     if (apiData) {
       checkIfFavorite();
     }
   }, [apiData]);
+
+  const submitRating = async (rating) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Please log in to give a rating.');
+        navigate('/login'); // Redirect if not authenticated
+        return;
+      } else {
+        console.log('token found');
+
+      }
+      console.log('attempting post');
+      console.log("Rating:", rating);
+      console.log('Movie_id:', title);
+
+      // Submit rating for movie
+      const response = await axios.post(`http://localhost:5000/api/rate/${title}`, 
+          {rating, title},
+        {headers: { Authorization: `Bearer ${token}`}
+      });
+      console.log('Post successful');
+    } catch (err) {
+      console.error('Error with rating:', err.message);
+    }
+  }; 
+  const movieTitle = title;
+  useEffect(() => {
+    const fetchAverageRating = async () => {
+      
+      try {
+        const response = await axios.post('http://localhost:5000/api/rate/average-rating/${title}', {title});
+        console.log('Average Rating:', response.data.average);
+        if (response.data.average != null && response.data.average != 0) {
+        setAverageRates(response.data.average.toFixed(2));
+        }
+        setTotalRates(response.data.totalRating);
+      console.log('averageRates is now:', averageRates );
+      } catch (error) {
+        console.error('Error fetching average rating:', error.message);
+      }
+    };
+
+    fetchAverageRating();
+  }, []);
+
+  const fetchAverageRating = async () => {
+    
+    try {
+      const response = await axios.post('http://localhost:5000/api/rate/average-rating/${title}', {title});
+     
+      console.log('Average Rating:', response.data.average);
+      if (response.data.average != null && response.data.average != 0) {
+      setAverageRates(response.data.average.toFixed(2));
+      }
+      setTotalRates(response.data.totalRating);
+      console.log('averageRates is now:', averageRates );
+    } catch (error) {
+      console.error('Error fetching average rating:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    console.log('averageRates is now:', averageRates);
+  }, [averageRates]);
 
   // Handle toggle favorite (add/remove movie)
   const toggleFavorite = async () => {
@@ -114,6 +206,7 @@ function MovieDetail() {
     }
   };
 
+
   const handleCheckboxChange = (listId) => {
     setSelectedLists((prev) =>
       prev.includes(listId) ? prev.filter((id) => id !== listId) : [...prev, listId]
@@ -128,6 +221,7 @@ function MovieDetail() {
       </div>
     );
   }
+
 
   return (
     <div>
@@ -172,8 +266,67 @@ function MovieDetail() {
             textColor: `rgba(${255 * (1 - (apiData.imdbRating/10)) + 20}, ${255 * apiData.imdbRating/10}, 0)`
           })} />
           </div>}
-          
+          <form>
+  <div className="StarSection">
+    <h2 style={{ color: `#f4c430` }}>Your Rating</h2>
+    {[...Array(5)].map((star, i) => {
+      const ratingValue = i + 1;
+      return (
+        <label key={i}>
+          <input 
+            type="radio" 
+            name="rating" 
+            value={ratingValue} 
+            onClick={() => setRating(ratingValue)} 
+          />
+          <FaStar 
+            className="star" 
+            color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"} 
+            size={20}
+            onMouseEnter={() => setHover(rating)}
+            onMouseLeave={() => setHover(null)}
+          />
+        </label>
+      );
+    })}
+    {/* Pass the rating state instead of ratingValue */}
+    
+  </div>
+  <button 
+      type="button" 
+      onClick={() => updateRating()}
+      className="rate-button">
+      Rate
+    </button>
+
+  <div className="TotalStarSection">
+    <h2 style={{ color: `#f4c430` }}>User Ratings</h2>
+    {[...Array(5)].map((star, i) => { 
+        const rateValue = i+1;
+        const publicValue = averageRates;
+            return <label>
+                    <input type ="radio" name="rating" value={averageRates} 
+                    
+                    />
+                    <FaStar 
+                    className ="star" 
+                    color={rateValue <= publicValue ? "#ffc107" : "#e4e5e9"} 
+                    size={20}
+                    />
+                
+                </label>
+       
+       })}
+       <h3 style={{ color: `#f4c430` }}>({totalRates} votes)</h3> 
+        
+        <h3 style={{ color: `#f4c430` }}>{averageRates} out of 5</h3>
+        
+  </div>
+</form>
           </div>
+
+        
+
           <div className="favorite-button" onClick={toggleFavorite}>
             <span id="heart-icon">{isFavorite ? '♥' : '♡'}</span>{' '}
             {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
